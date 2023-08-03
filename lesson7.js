@@ -44,7 +44,7 @@ checkStart2("Incubator", "yo")
 const checkStart3 = (str, substr) => {
     let result = 0;
     for (let i = 0; i < substr.length; i++) {
-        str.toLowerCase().indexOf(substr[i].toLowerCase()) != -1 ? result += str.toLowerCase().indexOf(substr[i]) : result += 0
+        str.toLowerCase().indexOf(substr[i].toLowerCase()) != -1 ? result += 1 : result += 0   //str.toLowerCase().indexOf(substr[i])
     }
     console.log(result === (substr.length))
 }
@@ -104,7 +104,13 @@ setUpperCase("всем стУдентам инкуБатора Желаю уда
 const isIncludes = (str, substr) => {
     let result = 0;
     for (let i = 0; i < substr.length; i++) {
-        str.toLowerCase().indexOf(substr[i].toLowerCase()) != -1 ? result += str.toLowerCase().indexOf(substr[i]) : result += 0
+        str.toLowerCase().indexOf(substr[i].toLowerCase()) != -1 ? result += 1 : result += 0
     }
-    console.log(result === (substr.length))
+    console.log(result === substr.length)
 }
+
+isIncludes("Incubator", "Cut")
+isIncludes("Incubator", "table")
+isIncludes("Incubator", "inbba")
+isIncludes("Incubator", "inba")
+isIncludes("Incubator", "Incubatorrr")
