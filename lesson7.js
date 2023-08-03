@@ -46,7 +46,7 @@ const checkStart3 = (str, substr) => {
     for (let i = 0; i < substr.length; i++) {
         str.toLowerCase().indexOf(substr[i].toLowerCase()) != -1 ? result += str.toLowerCase().indexOf(substr[i]) : result += 0
     }
-    console.log (result === (substr.length))
+    console.log(result === (substr.length))
 }
 checkStart3("Incubator", "inc");
 checkStart3("Incubator", "yo")
@@ -55,7 +55,7 @@ checkStart3("Incubator", "yo")
 //3. Реализуйте функцию, которая принимает параметром строку и число (количество символов), а возвращает строку из параметров, обрезанную до указанного количества символов и завершает её многоточием.
 //truncateString("Всем студентам инкубатора желаю удачи!", 10) => "Всем студе..."
 
-const truncateString = (str, num) => console.log(`${str.slice(0,num)}...`);
+const truncateString = (str, num) => console.log(`${str.slice(0, num)}...`);
 truncateString("Всем студентам инкубатора желаю удачи!", 10)
 
 //4. Реализуйте функцию, которая принимает параметром сторку (предложение) и возвращает самое короткое слово в предложении, если в параметрах пустая строка, то возвращает null.
@@ -64,7 +64,7 @@ truncateString("Всем студентам инкубатора желаю уд
 // split()
 
 const getMinLengthWord = (str) => {
-    let arr = str.split(' ').sort((a, b)=> a.length - b.length)
+    let arr = str.split(' ').sort((a, b) => a.length - b.length)
     console.log(arr[0] ? arr[0] : null)
 }
 
@@ -77,4 +77,34 @@ getMinLengthWord("");
 
 // !!!!!!!!!!!!!!!!!!После решения 5 задач - поднимаем руку!!!!!!!!
 
+const setUpperCase = (str) => {
+    const arr = str.split(' ');
+    let newStr = '';
+    for (let i = 0; i < arr.length; i++) {
+        newStr += `${arr[i][0].toUpperCase()}${arr[i].slice(1).toLowerCase()} `;
+    }
+    console.log(newStr);
+}
+
 setUpperCase("всем стУдентам инкуБатора Желаю удачИ!")
+
+
+//6. Реализуйте функцию, котрая принимает параметрами строку и подстроку. Если все
+// символы подстроки содержаться в стороке - возвращает true, если нет -
+// возвращает false. Проверка проводится без учёта регистра и без учётом
+// повторяющихся символов.
+//* попробовать учитывать повтор символов в подстроке
+
+// isIncludes("Incubator", "Cut") => true
+// isIncludes("Incubator", "table") => false
+// isIncludes("Incubator", "inbba") => true
+// isIncludes("Incubator", "inba") => true
+// isIncludes("Incubator", "Incubatorrr")=> true
+
+const isIncludes = (str, substr) => {
+    let result = 0;
+    for (let i = 0; i < substr.length; i++) {
+        str.toLowerCase().indexOf(substr[i].toLowerCase()) != -1 ? result += str.toLowerCase().indexOf(substr[i]) : result += 0
+    }
+    console.log(result === (substr.length))
+}
