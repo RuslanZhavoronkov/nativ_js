@@ -142,3 +142,26 @@ isIncludes("Incubator", "table")
 isIncludes("Incubator", "inbba")
 isIncludes("Incubator", "inba")
 isIncludes("Incubator", "Incubatorrr")
+
+
+//_______________________________________________________________________________________________________________________________________________________________export const students: Array<StudentType> = [
+
+
+const students = [
+    { id: 1, name: "Bob", age: 34 },
+    { id: 2, name: "Alex", age: 23 },
+    { id: 3, name: "Ann", age: 25 },
+    { id: 4, name: "Charley", age: 20 },
+]
+
+console.log(students[1].name)
+console.log(students[3].name)
+
+
+const friends = {
+    1: ["Jack", "Oliver", "Oscar",],
+    2: ["Jack", "Lewis", "Thomas",],
+    3: ["William", "Lewis", "Michael"],
+    4: ["Oscar", "Thomas", "William",],
+}
+
