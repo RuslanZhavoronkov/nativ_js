@@ -4,9 +4,9 @@ setTimeout(() => {
 }, 2000)
 
 
-fetch(url, callback)=> {
-    callback(data)
-}
+// fetch(url, callback) => {
+//     callback(data)
+// }
 
 
 // fetch('https://libruary.com/authors', (err,data) => {
@@ -177,3 +177,21 @@ Promise.reject("reject1")
 
 
 //Прочитать про промисы
+
+//lesson 11
+// Напишите функцию delay(ms), которая возвращает промис, переходящий в состояние "resolved" через ms миллисекунд.
+// Пример использования:
+
+delay(1000)  .then(() => alert("Hello!"))
+
+
+delay(1000)
+.then(() => setTimeout(()=> {alert("Hello!")}), 1000)
+.catch((error) => console.log(error));
+
+function delay(ms) {
+    return new Promise((res,rej)=> {
+        setTimeout(res,ms)
+    })
+}
+
