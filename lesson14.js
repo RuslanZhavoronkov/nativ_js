@@ -52,7 +52,7 @@ Function._proto_._proto_ === Object.prototype
 
 Function.prototype._proto_ === Object.prototype
 
-//Свойство prototype есть только у классов и функций конструкторов, proto есть у всех объектов
+//Свойство(объект) prototype есть только у классов и функций конструкторов, proto есть у всех объектов
 
 const foo = []
 const bar = {}
