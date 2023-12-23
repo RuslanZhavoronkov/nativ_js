@@ -1,8 +1,22 @@
-<html>
-  <head>
-    <title> </title>
-  </head>
-  <body>
-    <script src="lesson4.js"></script>
-  </body>
-</html>
+<!DOCTYPE html>
+<script>
+  // внутрь Promise передаем колбэк-функцию, которая собственно и есть та логика, которую промис обещает выполнить.
+  let myPromise = new Promise((resolve, reject) => {
+    //этот колбэк тут же вызывается не асинхронно
+    setTimeout(() => {
+      //alert("hey");
+      resolve(Math.random());
+    }, 2000);
+
+    console.log(1);
+    console.log(2);
+    console.log(3);
+  });
+
+  console.log(myPromise);
+  // ниже по коду мы можем подписаться, на промис, чтобы он (промис) вызвал нашу функцию, когда он (промис) зарезолвится. Для этого передаём в метод then колбэк-функцию)
+  myPromise.then((response) => {
+    console.log(`myPromise зарезолвился, и я узнал об этом ${response}`);
+    console.log(myPromise);
+  });
+</script>
