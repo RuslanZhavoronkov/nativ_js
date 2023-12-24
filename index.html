@@ -1,22 +1,42 @@
 <!DOCTYPE html>
 <script>
   // внутрь Promise передаем колбэк-функцию, которая собственно и есть та логика, которую промис обещает выполнить.
-  let myPromise = new Promise((resolve, reject) => {
-    //этот колбэк тут же вызывается не асинхронно
-    setTimeout(() => {
-      //alert("hey");
-      resolve(Math.random());
-    }, 2000);
+  // let myPromise = new Promise((resolve, reject) => {
+  //   //этот колбэк тут же вызывается не асинхронно
+  //   setTimeout(() => {
+  //     //alert("hey");
+  //     resolve(Math.random());
+  //   }, 2000);
 
-    console.log(1);
-    console.log(2);
-    console.log(3);
-  });
+  //   console.log(1);
+  //   console.log(2);
+  //   console.log(3);
+  // });
 
-  console.log(myPromise);
-  // ниже по коду мы можем подписаться, на промис, чтобы он (промис) вызвал нашу функцию, когда он (промис) зарезолвится. Для этого передаём в метод then колбэк-функцию)
-  myPromise.then((response) => {
-    console.log(`myPromise зарезолвился, и я узнал об этом ${response}`);
-    console.log(myPromise);
-  });
+  // console.log(myPromise);
+  // // ниже по коду мы можем подписаться, на промис, чтобы он (промис) вызвал нашу функцию, когда он (промис) зарезолвится. Для этого передаём в метод then колбэк-функцию)
+  // myPromise.then((response) => {
+  //   console.log(`myPromise зарезолвился, и я узнал об этом ${response}`);
+  //   console.log(myPromise);
+  // });
+
+  // myPromise.then((response) => {
+  //   console.log(
+  //     `Я показываюсь второй раз на зарезолвленный промис ${response}`
+  //   );
+  //   console.log(myPromise);
+  // });
+
+  const doAfter = (time) => {
+    //1 var
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, time*1000);
+    });
+  };
+
+  doAfter(5).then(() => console.log("я сработал через 5 секунд"));
+  doAfter(3).then(() => console.log("а я сработал через 3 секунд"));
+  doAfter(10).then(() => console.log("я сработал через 10 секунд"));
 </script>
