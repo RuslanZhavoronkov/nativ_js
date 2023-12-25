@@ -58,11 +58,45 @@
   //   console.log(response.data);
   // });
 
+  // let msPromise = api.getVacanciesCountFromMicrosoft()
+  // .then((response) => console.log(response.data))
+
+  // let googlePromise = api.getVacanciesCountFromGoogle()
+  // .then((response) => console.log(response.data))
+
+  // api.sendStudentsCountToItKamasutra(XXXX)
+  // .then((response) => console.log(response.data))
+
+  //my variant
   let msPromise = api.getVacanciesCountFromMicrosoft();
 
   let googlePromise = api.getVacanciesCountFromGoogle();
 
-  api.sendStudentsCountToItKamasutra(XXXX).then((data) => {
-    console.log(data);
-  });
+  const allPromise = Promise.all([msPromise, googlePromise]); //await resolve two promise
+  allPromise
+    .then((response) => {
+      let responseFromMS = response[0].data.vacancies;
+      let responseFromGoogle = response[1].data.vacancies;
+      let summVacancies = responseFromMS + responseFromGoogle;
+
+      api
+        .sendStudentsCountToItKamasutra(summVacancies)
+        .then((response) => console.log(response.data));
+    })
+    .catch(() => {
+      alert("sorry reload youapplication");
+    });
+
+  const api = {
+    getVacanciesCountFromMicrosoft() {
+      axios.get("https://microsoft.com").then((response) => {
+        return response.data.vacancies;
+      });
+    },
+    getVacanciesCountFromGoogle() {
+      axios.get(`https://google.com`).then((response) => {
+        return response.data.vacancies;
+      });
+    },
+  };
 </script>
