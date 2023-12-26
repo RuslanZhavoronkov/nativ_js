@@ -3,6 +3,19 @@
 <script src="api.js"></script>
 <script src="doAfter.js"></script>
 <script>
+  const api = {
+    getVacanciesCountFromMicrosoft() {
+      axios.get("https://microsoft.com").then((response) => {
+        return response.data.vacancies;
+      });
+    },
+    getVacanciesCountFromGoogle() {
+      return axios.get(`https://google.com`).then((response) => {
+        response.data.vacancies; //возвращаем наружу промис который будет резолвится вакансиями
+      });
+    },
+  };
+
   // внутрь Promise передаем колбэк-функцию, которая собственно и есть та логика, которую промис обещает выполнить.
   // let myPromise = new Promise((resolve, reject) => {
   //   //этот колбэк тут же вызывается не асинхронно
@@ -68,6 +81,25 @@
   // .then((response) => console.log(response.data))
 
   //my variant
+  // let msPromise = api.getVacanciesCountFromMicrosoft();
+
+  // let googlePromise = api.getVacanciesCountFromGoogle();
+
+  // const allPromise = Promise.all([msPromise, googlePromise]); //await resolve two promise
+  // allPromise
+  //   .then((response) => {
+  //     let responseFromMS = response[0].data.vacancies;
+  //     let responseFromGoogle = response[1].data.vacancies;
+  //     let summVacancies = responseFromMS + responseFromGoogle;
+
+  //     api
+  //       .sendStudentsCountToItKamasutra(summVacancies)
+  //       .then((response) => console.log(response.data));
+  //   })
+  //   .catch(() => {
+  //     alert("sorry reload youapplication");
+  //   });
+
   let msPromise = api.getVacanciesCountFromMicrosoft();
 
   let googlePromise = api.getVacanciesCountFromGoogle();
@@ -87,16 +119,92 @@
       alert("sorry reload youapplication");
     });
 
-  const api = {
-    getVacanciesCountFromMicrosoft() {
-      axios.get("https://microsoft.com").then((response) => {
-        return response.data.vacancies;
+  let msVacancies = 0;
+  api
+    .getVacanciesCountFromMicrosoft()
+    .then((msCountVacancies) => {
+      msVacancies = msCountVacancies;
+      return api.getVacanciesCountFromGoogle();
+    })
+    .then((googleCountVacancies) => {
+      return;
+      sendStudentsCountToItKamasutra(msVacancies + googleCountVacancies);
+    })
+    .then((response) => {
+      console.log("from it-kamasutra" + res.data);
+    });
+
+  //применение async await
+  function loadVacanciesPromiseVer() {
+    let msVacancies = 0;
+    api
+      .getVacanciesCountFromMicrosoft()
+      .then((msCountVacancies) => {
+        msVacancies = msCountVacancies;
+        return api.getVacanciesCountFromGoogle();
+      })
+      .then((googleCountVacancies) => {
+        return;
+        sendStudentsCountToItKamasutra(msVacancies + googleCountVacancies);
+      })
+      .then((response) => {
+        console.log("from it-kamasutra" + res.data);
       });
-    },
-    getVacanciesCountFromGoogle() {
-      axios.get(`https://google.com`).then((response) => {
-        return response.data.vacancies;
+  }
+
+  function loadVacanciesPromiseVer() {
+    let msVacancies = 0;
+    api
+      .getVacanciesCountFromMicrosoft()
+      .then((msCountVacancies) => {
+        msVacancies = msCountVacancies;
+        return api.getVacanciesCountFromGoogle();
+      })
+      .then((googleCountVacancies) => {
+        return;
+        api.sendStudentsCountToItKamasutra(msVacancies + googleCountVacancies);
+      })
+      .then((response) => {
+        console.log("from it-kamasutra" + res.data);
       });
-    },
-  };
+  }
+
+  async function loadVacanciesAsyncAwaitV() {
+    try {
+      let msVacancies = await api.getVacanciesCountFromMicrosoft(); //дай нам то значение, которым этот промис зарезолвится - 1 step
+      let googleVacancies = await api.getVacanciesCountFromGoogle(); //2 step
+      let studentsCountToItKamasutra = await api.sendStudentsCountToItKamasutra(
+        //3 step
+        msVacancies + googleVacancies
+      );
+      console.log(studentsCountToItKamasutra);
+    } catch (error) {
+      alert(error);
+    }
+  }
+
+  async function loadVacanciesAsyncAwaitParallelV() {
+    let msPromise = api.getVacanciesCountFromMicrosoft();
+    let googlePromise = api.getVacanciesCountFromGoogle();
+    let resultTwoPromise = await Promise.all([msPromise, googlePromise]);
+    let studentsCountToItKamasutra = await api.sendStudentsCountToItKamasutra(resultTwoPromise[0] + resultTwoPromise[1]);
+    console.log(studentsCountToItKamasutra);
+  }
+
+  async function loadVacanciesAsyncAwaitParallelVar2() {
+    let msPromise = api.getVacanciesCountFromMicrosoft();
+    let googlePromise = api.getVacanciesCountFromGoogle();
+    let resultTwoPromise = await Promise.all(
+      [api.getVacanciesCountFromMicrosoft(),
+       api.getVacanciesCountFromGoogle()]
+       );
+    let studentsCountToItKamasutra = await api.sendStudentsCountToItKamasutra(resultTwoPromise[0] + resultTwoPromise[1]);
+    console.log(studentsCountToItKamasutra);
+  }
+
+
+
+
+  loadVacanciesPromiseVer();
+  loadVacanciesAsyncAwaitV();
 </script>
