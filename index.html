@@ -187,24 +187,118 @@
     let msPromise = api.getVacanciesCountFromMicrosoft();
     let googlePromise = api.getVacanciesCountFromGoogle();
     let resultTwoPromise = await Promise.all([msPromise, googlePromise]);
-    let studentsCountToItKamasutra = await api.sendStudentsCountToItKamasutra(resultTwoPromise[0] + resultTwoPromise[1]);
+    let studentsCountToItKamasutra = await api.sendStudentsCountToItKamasutra(
+      resultTwoPromise[0] + resultTwoPromise[1]
+    );
     console.log(studentsCountToItKamasutra);
   }
 
   async function loadVacanciesAsyncAwaitParallelVar2() {
     let msPromise = api.getVacanciesCountFromMicrosoft();
     let googlePromise = api.getVacanciesCountFromGoogle();
-    let resultTwoPromise = await Promise.all(
-      [api.getVacanciesCountFromMicrosoft(),
-       api.getVacanciesCountFromGoogle()]
-       );
-    let studentsCountToItKamasutra = await api.sendStudentsCountToItKamasutra(resultTwoPromise[0] + resultTwoPromise[1]);
+    let resultTwoPromise = await Promise.all([
+      api.getVacanciesCountFromMicrosoft(),
+      api.getVacanciesCountFromGoogle(),
+    ]);
+    let studentsCountToItKamasutra = await api.sendStudentsCountToItKamasutra(
+      resultTwoPromise[0] + resultTwoPromise[1]
+    );
     console.log(studentsCountToItKamasutra);
   }
 
-
-
-
   loadVacanciesPromiseVer();
   loadVacanciesAsyncAwaitV();
+
+  //
+  Promise.all([Promise.resolve(3), Promise.resolve(5)]).then(
+    (responseArray) => {
+      console.log(responseArray[1], responseArray[2]);
+    }
+  );
+
+  let pr = new Promise((res, rej) => {
+    rej("Oleg");
+  });
+  pr.then((response) => console.log(1))
+    .catch((error) => console.log(2)) //ошибку перехватили и дальше можно будет идти по цепочке then
+    .catch((error) => console.log(3))
+    .then((response) => console.log(4))
+    .then((response) => console.log(5));
+  //ответ: 2, 4
+
+  async function yo() {
+    return "yo";
+  }
+
+  let a = yo();
+
+  a.then((response) => console.log(response))(
+    //асинхронная функция вернет промис, зарезолвленный 5
+
+    async function () {
+      let result = await yo(); //в result будет сидеть значение которым зарезолвился промис
+      console.log(result); //ответ: 'yo'
+    }
+  )();
+
+  axios
+    .get("https://nl.com/user/12")
+    .then((user) => axios.get("https://belarusbank.by" + user.account)) //в следущий then из колбэка придет не промис, а то чем этот промис зарезолвится
+    .then((money) => console.log(money));
+
+  //
+  pr.then((res) => 1)
+    .then((res) => Promise.resolve(res + 2))
+    .then((res) => Promise.resolve(res - 1))
+    .then((res) => res + 2)
+    .then((res) => console.log(res)); //Ответ 4
+
+  //
+
+  let prom = new Promise((res, rej) => {
+    rej("Oleg");
+  });
+
+  prom.then(
+    (response1) => {},
+    (response2) => {
+      alert(response2);
+    }
+  ); //1й колбэк срабатывает - если промис зарезолвился, 2й колбэк срабатывает - если промис зарезжектился
+
+  prom
+    .then((response) => console.log(response))
+    .catch((error) => console.log(error));
+
+  //
+  let prom1 = new Promise((resolve, reject) => {
+    // resolve('Oleg')
+    reject("Sasha");
+  });
+
+
+    (async function () {
+      try {
+        let res = await prom1;
+        console.log(res);
+      } catch (error) {
+        //при await если не дождались зарезолвленного промиса то попадаем в catch конструкции try, catch
+        console.log(error);
+      }
+    })();
+  
+    //в реальной жизни
+
+    (async function () {
+      try {
+        let res = await api.getUsers();
+        dispatch(setUsers(res));
+      } catch (error) {
+        //при await если не дождались зарезолвленного промиса то попадаем в catch конструкции try, catch
+        dispatch(showError(error));
+      }
+    })();
+
+
+    //
 </script>
