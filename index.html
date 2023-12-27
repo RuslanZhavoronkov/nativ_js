@@ -276,29 +276,165 @@
     reject("Sasha");
   });
 
+  (async function () {
+    try {
+      let res = await prom1;
+      console.log(res);
+    } catch (error) {
+      //при await если не дождались зарезолвленного промиса то попадаем в catch конструкции try, catch
+      console.log(error);
+    }
+  })();
 
-    (async function () {
-      try {
-        let res = await prom1;
-        console.log(res);
-      } catch (error) {
-        //при await если не дождались зарезолвленного промиса то попадаем в catch конструкции try, catch
-        console.log(error);
-      }
-    })();
-  
-    //в реальной жизни
+  //в реальной жизни
 
-    (async function () {
-      try {
-        let res = await api.getUsers();
-        dispatch(setUsers(res));
-      } catch (error) {
-        //при await если не дождались зарезолвленного промиса то попадаем в catch конструкции try, catch
-        dispatch(showError(error));
-      }
-    })();
+  (async function () {
+    try {
+      let res = await api.getUsers();
+      dispatch(setUsers(res));
+    } catch (error) {
+      //при await если не дождались зарезолвленного промиса то попадаем в catch конструкции try, catch
+      dispatch(showError(error));
+    }
+  })();
+
+  //
+  let promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve();
+    }, 3000);
+  });
+  console.log(promise.status);
+
+  let axios = {
+    get() {
+      let promise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          reject("YoYoYo");
+        }, 3000);
+      });
+      return promise;
+    },
+  };
+
+  axios
+    .get()
+    .then((data) => console.log(data))
+    .catch((error) => {
+      console.log(error);
+    });
+
+  let promise1 = axios.get();
+
+  promise1
+    .then((data) => console.log(data))
+    .then(() => console.log("1"))
+    .then(() => console.log("2"));
+
+  let r = {
+    result: 0,
+    sum(a) {
+      this.result += a;
+      return this
+    },
+    minus(a) {
+      this.result -= a;
+      return this
+    },
+    mult(a) {
+      this.result *= a;
+      return this
+    }
+  };
+
+  r.sum(2)
+  .sum(3)
+  .minus(1)
+  .mult(2);
+
+  console.log(a.result)
+
+  //
+
+  let axios1 = {
+    get() {
+      let promise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve("YoYoYo");
+        }, 3000);
+      });
+      return promise;
+    },
+  };
+  let promise2 = axios1.get()
+  promise2
+  .then((message) =>{
+    console.log(message)
+    return 1
+  } )
+  .then((data)=> {
+console.log(data)
+  })
+  .then()
 
 
-    //
+  //
+  let axios2 = {
+    get() {
+   return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve({G: 2, g3:4, message: 'YoYoYo' });
+        }, 3000);
+      });
+    
+    },
+  };
+
+
+axios2.get()
+.then((response)=> {
+  return new Promise((resolve)=> {
+    resolve('New Promise')
+  })
+})
+.then((message)=> {
+  console.log(message)
+})
+
+//   axios2.get()
+//   .then((obj) => {
+//     return obj.message
+//   })
+// .then(message => console.log(message))
+
+let callback = (data)=>  data
+
+let fetch = (url) => {
+  return new Promise((resolve, reject)=> {
+    switch (url) {
+    case 'google': {
+      setTimeout(()=> {
+        callback({data:'from google'});
+      }, 2000)
+      break;
+    }
+    case 'microsoft': {
+      setTimeout(()=> {
+        callback({data:'from microsoft'});
+      }, 3000)
+      break;
+    }
+    case 'it-kamasutra': {
+      setTimeout(()=> {
+        callback({data:'from microsoft'});
+      }, 500)
+      break;
+    }
+  }
+  })
+}
+
+fetch('google')
+.then(data => console.log(data))
+
 </script>
