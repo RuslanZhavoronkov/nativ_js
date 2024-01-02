@@ -3,64 +3,53 @@
 <script src="api.js"></script>
 <script src="doAfter.js"></script>
 <script>
-  const api = {
-    getVacanciesCountFromMicrosoft() {
-      axios.get("https://microsoft.com").then((response) => {
-        return response.data.vacancies;
-      });
-    },
-    getVacanciesCountFromGoogle() {
-      return axios.get(`https://google.com`).then((response) => {
-        response.data.vacancies; //возвращаем наружу промис который будет резолвится вакансиями
-      });
-    },
-  };
+ 
 
-  // внутрь Promise передаем колбэк-функцию, которая собственно и есть та логика, которую промис обещает выполнить.
-  // let myPromise = new Promise((resolve, reject) => {
-  //   //этот колбэк тут же вызывается не асинхронно
-  //   setTimeout(() => {
-  //     //alert("hey");
-  //     resolve(Math.random());
-  //   }, 2000);
+  //внутрь Promise передаем колбэк-функцию, которая собственно и есть та логика, которую промис обещает выполнить.
+  let myPromise = new Promise((resolve, reject) => {
+    //этот колбэк тут же вызывается не асинхронно
+    setTimeout(() => {
+      //alert("hey");
+      resolve(Math.random());
+    }, 2000);
 
-  //   console.log(1);
-  //   console.log(2);
-  //   console.log(3);
-  // });
+    console.log(1);
+    console.log(2);
+    console.log(3);
+  });
 
-  // console.log(myPromise);
-  // // ниже по коду мы можем подписаться, на промис, чтобы он (промис) вызвал нашу функцию, когда он (промис) зарезолвится. Для этого передаём в метод then колбэк-функцию)
-  // myPromise.then((response) => {
-  //   console.log(`myPromise зарезолвился, и я узнал об этом ${response}`);
-  //   console.log(myPromise);
-  // });
+  console.log(myPromise);
+  // ниже по коду мы можем подписаться, на промис, чтобы он (промис) вызвал нашу функцию, когда он (промис) зарезолвится. Для этого передаём в метод then колбэк-функцию)
+  myPromise.then((response) => {
+    console.log(`myPromise зарезолвился, и я узнал об этом ${response}`);
+    console.log(myPromise);
+  });
 
-  // myPromise.then((response) => {
-  //   console.log(
-  //     `Я показываюсь второй раз на зарезолвленный промис ${response}`
-  //   );
-  //   console.log(myPromise);
-  // });
+  myPromise.then((response) => {
+    console.log(
+      `Я показываюсь второй раз на зарезолвленный промис ${response}`
+    );
+    console.log(myPromise);
+  });
 
-  // doAfter(5).then(() => console.log("я сработал через 5 секунд"));
-  // doAfter(3).then(() => console.log("а я сработал через 3 секунд"));
-  // doAfter(10).then(() => console.log("я сработал через 10 секунд"));
+  doAfter(5).then(() => console.log("я сработал через 5 секунд"));
+  doAfter(3).then(() => console.log("а я сработал через 3 секунд"));
+  doAfter(10).then(() => console.log("я сработал через 10 секунд"));
 
-  // let pr1 = doAfter(1);
-  // let pr2 = pr1.then((n)=> {
-  //   console.log(`pr1 зарезолвился ${n}`)
-  //   return n*1000
-  // });
-  // let pr3 = pr2.then((n) => {
-  //   console.log(`pr2 зарезолвился ${n}`)
-  //   return n*1000
-  // });
-  // let pr4 = pr3.then((n) => {
-  //   console.log(`pr3 зарезолвился ${n}`)
-  // });
+  let pr1 = doAfter(1);
+  let pr2 = pr1.then((n)=> {
+    console.log(`pr1 зарезолвился ${n}`)
+    return n*1000
+  });
+  let pr3 = pr2.then((n) => {
+    console.log(`pr2 зарезолвился ${n}`)
+    return n*1000
+  });
+  let pr4 = pr3.then((n) => {
+    console.log(`pr3 зарезолвился ${n}`)
+  });
 
-  // console.log(pr1, pr2, pr3, pr4);
+  console.log(pr1, pr2, pr3, pr4);
 
   // .then(() => console.log("я сработал через 3 секунд"))
   // .catch((error)=> {console.log('some error')})
@@ -80,7 +69,7 @@
   // api.sendStudentsCountToItKamasutra(XXXX)
   // .then((response) => console.log(response.data))
 
-  //my variant
+  // my variant
   // let msPromise = api.getVacanciesCountFromMicrosoft();
 
   // let googlePromise = api.getVacanciesCountFromGoogle();
@@ -100,24 +89,24 @@
   //     alert("sorry reload youapplication");
   //   });
 
-  let msPromise = api.getVacanciesCountFromMicrosoft();
+  // let msPromise = api.getVacanciesCountFromMicrosoft();
 
-  let googlePromise = api.getVacanciesCountFromGoogle();
+  // let googlePromise = api.getVacanciesCountFromGoogle();
 
-  const allPromise = Promise.all([msPromise, googlePromise]); //await resolve two promise
-  allPromise
-    .then((response) => {
-      let responseFromMS = response[0].data.vacancies;
-      let responseFromGoogle = response[1].data.vacancies;
-      let summVacancies = responseFromMS + responseFromGoogle;
+  // const allPromise = Promise.all([msPromise, googlePromise]); //await resolve two promise
+  // allPromise
+  //   .then((response) => {
+  //     let responseFromMS = response[0].data.vacancies;
+  //     let responseFromGoogle = response[1].data.vacancies;
+  //     let summVacancies = responseFromMS + responseFromGoogle;
 
-      api
-        .sendStudentsCountToItKamasutra(summVacancies)
-        .then((response) => console.log(response.data));
-    })
-    .catch(() => {
-      alert("sorry reload youapplication");
-    });
+    //   api
+    //     .sendStudentsCountToItKamasutra(summVacancies)
+    //     .then((response) => console.log(response.data));
+    // })
+    // .catch(() => {
+    //   alert("sorry reload youapplication");
+    // });
 
   let msVacancies = 0;
   api
@@ -401,11 +390,11 @@ axios2.get()
   console.log(message)
 })
 
-//   axios2.get()
-//   .then((obj) => {
-//     return obj.message
-//   })
-// .then(message => console.log(message))
+  axios2.get()
+  .then((obj) => {
+    return obj.message
+  })
+.then(message => console.log(message))
 
 let callback = (data)=>  data
 
@@ -426,15 +415,64 @@ let fetch = (url) => {
     }
     case 'it-kamasutra': {
       setTimeout(()=> {
-        callback({data:'from microsoft'});
+        callback({data:'it-kamasutra'});
       }, 500)
+      break;
+    }
+    default: {
+      setTimeout(()=> {
+        callback({data:'from unknown resourse'});
+      }, 400)
       break;
     }
   }
   })
 }
 
-fetch('google')
+fetch('google').then(data => console.log(data))
+fetch('microsoft').then(data => console.log(data))
+fetch('it-kamasutra').then(data => console.log(data))
+
+let makeRequests = () => {
+fetch('google').then(data => console.log(data))
+.then((data) => {
+ return  fetch('microsoft')
+})
+.then((data) => {
+  return fetch('it-kamasutra')
+})
 .then(data => console.log(data))
+}
+
+
+let makeRequests2 = async () => {
+  const response = await fetch('google')
+  console.log(data)
+  response = await fetch('microsoft')
+  console.log(data)
+  response = await fetch('it-kamasutra')
+  console.log(data)
+}
+
+let makeRequestAtTheOneMoment = async () => {
+  fetch('google')
+  fetch('microsoft')
+  fetch('it-kamasutra')
+
+  const response = await Promise.all([fetch('google'),  fetch('microsoft'),  fetch('it-kamasutra')])
+  // Promise.all([fetch('google'),  fetch('microsoft'),  fetch('it-kamasutra')])
+  // .then((data => console.log('all finished')))
+} 
+makeRequestAtTheOneMoment()
+
+const makeRequestAtTheOneMoment1 = async () => {
+  let dataFromKamasutra = await fetch('it-kamasutra')
+  if(dataFromKamasutra.isAuth) {
+    let promises = [fetch('microsoft'), fetch('google')]
+    let data = await Promise.all(promises)
+    console.log(data)
+  }
+}
+
 
 </script>
