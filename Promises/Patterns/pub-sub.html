@@ -1,0 +1,54 @@
+<html>
+  <body></body>
+  <script>
+    class GlobalClock {
+      s = 0;
+      subscribers = [];
+      constructor() {
+        setInterval(() => {
+          this.s++;
+          console.log(this.s + "sec.");
+
+          subscribers.forEach((fn) => {
+          fn(this.s); //каждый подписчик должен обладать методом render и в него передаем секунды (s)
+          });
+          
+          ui1.render(this.s);
+          ui2.render(this.s);
+        }, 1000);
+      }
+    }
+
+    let globalClock = new GlobalClock();
+
+    class UIClock1 {
+      constructor() {
+        this.el = document.createElement("div");
+        document.body().appendChild(this.el);
+      }
+      render(s) {
+        this.el.innerHTML = globalClock.s;
+      }
+    }
+
+    let ui1 = new UIClock1();
+    globalClock.subscribers.push(ui1.render.bind(ui1)) //+1 подписчик (функция)
+
+
+    class UIClock2 {
+      constructor() {
+        this.el = document.createElement("h1");
+        document.body().appendChild(this.el);
+      }
+      render(s) {
+        this.el.innerHTML = globalClock.s;
+      }
+    }
+
+    let ui2 = new UIClock2();
+    //ui2.render();
+    globalClock.subscribers.push(ui2.render(ui2)) //+1 подписчик (функция)
+
+    globalClock.subscribers.push((s)=> alert(s)) //+1 подписчик (функция)
+  </script>
+</html>

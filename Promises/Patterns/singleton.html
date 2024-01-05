@@ -1,11 +1,10 @@
 <script>
-class GlobalClock {
-    constructor() {
-        setInterval(()=>{
-            console.log('sec')
-        }, 1000)
+  class api {
+    getUsers() {
+      console.log("get");
     }
-}
-
-let globalClock = new GlobalClock()
+    createUser() {
+      console.log("set");
+    }
+  }
 </script>
