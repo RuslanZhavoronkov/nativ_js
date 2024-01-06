@@ -1,5 +1,14 @@
 <script>
-  class api {
+  let singleton = null;
+  class Api {
+    yo3 = 444; // у каждого объекта будет это свойство
+    static singleton = null; // добавили статический свойство, которое принадлежит только классу
+    constructor() {
+      if (Api.singleton != null) {
+        return Api.singleton;
+      }
+      Api.singleton = this;
+    }
     getUsers() {
       console.log("get");
     }
@@ -7,4 +16,19 @@
       console.log("set");
     }
   }
+
+  //Api.yo = "sdsa"; //добавили классу свойство(статическое свойство)
+
+  let api = new Api();
+  let api2 = new Api();
+
+  api.createUser();
+  api2.createUser();
+  api2.createUser();
+  api.createUser();
+  api2.createUser();
+  api2.createUser();
+  api2.createUser();
+  api.createUser();
+  api2.createUser();
 </script>
