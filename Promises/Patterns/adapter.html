@@ -1,0 +1,51 @@
+<script>
+  class Map {
+    load() {}
+    setMarket(lg, lt) {}
+    setCenter(lg, lt) {}
+  }
+
+  class MapApplication {
+    constructor(map) {
+      //map - это объект, созданный с помощью класса Map
+      //this.map = map;
+      this.map = map;
+    }
+    getShops() {}
+    findShop() {}
+    drawMap() {
+      this.map.load();
+      this.map.setCenter(1.2222, 3.32424);
+    }
+  }
+
+  class GoogleMapAdapter {
+    constructor(googleMap) {
+      this.map = googleMap;
+    }
+    load() {
+        this.map.start()
+    }
+    setMarket(lg, lt) {
+        this.map.setMarket(lg, lt)
+    }
+    setCenter(lg, lt) {
+        this.map.center(lg, lt)
+    }
+  }
+
+  let map = new Map();
+  let app = new MapApplication(map);
+
+  let map1 = new YandexMap();
+  let app1 = new MapApplication(map1);
+
+  //С патерном адаптер
+  let map2 = new GoogleMap();
+  // map2.start()//Методы, которые не соответствуют интерфейсу объектов, получаемых от MapApplication
+  // map2.center()//
+
+  let googleMapAdapter = new googleMapAdapter(map2); //Промежуточный класс (адаптер)
+
+  let app2 = new MapApplication(googleMapAdapter);
+</script>
